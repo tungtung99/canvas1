@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function Car(x, y, vx, vy, w, h, ctx) {
+            this.x = x;
+            this.y = y;
+            this.vx = vx;
+            this.vy = vy;
+            this.w = w;
+            this.h = h;
+            this.ctx = ctx;
+            this.move = function () {
+                if (this.y + this.h > 600 || this.y <= 0) {
+                    this.vy = -this.vy
+                }
+                if (this.x + this.w > 800 || this.x <= 0) {
+                    this.vx = -this.vx
+                }
+                this.x += this.vx
+                this.y += this.vy
+            }
+            this.draw = function () {
+                this.ctx.beginPath();
+                this.ctx.fillStyle = '#FA4B2A';
+                this.ctx.fillRect(this.x, this.y, this.w, this.h)
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <canvas id="game" width="800" height="600" style="border:3px solid #000000;">
+    <script>
+        let ctx = document.getElementById("game").getContext("2d")
+        let car = new Car(1, 1, 2, 2, 150, 100, ctx)
+        timeLoop = 1000 / 200
+            setInterval(gameStart, timeLoop)
+        function gameStart() {
+            car.ctx.clearRect(0, 0, 800, 600)
+            car.move()
+            car.draw()
+        }
+    </script>
+</body>
+
+</html>

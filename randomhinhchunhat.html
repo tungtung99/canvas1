@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        function Car( x, y, w, h, ctx) {
+            this.x = x;
+            this.y = y;
+            this.w = w;
+            this.h = h;
+            this.ctx = ctx;
+            this.draw = function () {
+                this.ctx.beginPath();
+                this.ctx.fillStyle = "#000001".replace(/0/g, function () { return (~~(Math.random() * 16)).toString(16); });
+                this.ctx.fillRect(this.x, this.y, this.w, this.h)
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <canvas id="game" width="800" height="600" style="border:3px solid #000000;"></canvas>
+    <h3 id="min"></h3>
+    <h3 id="max"></h3>
+    <script>
+        let car = []
+        let ctx = document.getElementById("game").getContext("2d")
+        function Nhinhchunhat() {
+            let messageMin = document.getElementById('min')
+            let messageMax = document.getElementById('max')
+            for (let i = 0; i < 5; i++) {
+                car[i] = new Car( (Math.random() * 300) + 1, (Math.random() * 300) + 1, (Math.random() * 400) + 1, (Math.random() * 400) + 1, ctx)
+            }
+            for (let i = 0; i < car.length; i++) {
+                car[i].draw()
+            }
+            messageMin.innerText = "Diện tích hình chữ nhật nhỏ nhất: " + timmin();
+            messageMax.innerText = "Diện tích hình chữ nhật lớn nhất: " + timmax();
+            tomauhcn()
+        }
+        function timmin() {
+            let min = car[0].w * car[0].h;
+            for (let i = 0; i < car.length; i++) {
+                if (car[i].w * car[i].h < min) {
+                    min = car[i].w * car[i].h;
+                }
+            }
+            return min;
+        }
+        function timmax() {
+            let max = car[0].w * car[0].h;
+            for (let i = 0; i < car.length; i++) {
+                if (car[i].w * car[i].h > max) {
+                    max = car[i].w * car[i].h;
+                }
+            }
+            return max;
+        }
+        function tomauhcn() {
+            let check = 0; check1=0
+            for (let i = 0; i < car.length; i++) {
+                if (car[i].w * car[i].h == timmin()) {
+                    check = i;
+                }
+                if (car[i].w * car[i].h == timmax()) {
+                    check1 = i;
+                }
+            }
+            car[check].ctx.strokeStyle = "#FF0000";
+            car[check].ctx.lineWidth = 3
+            car[check].ctx.strokeRect(car[check].x, car[check].y, car[check].w, car[check].h);
+            car[check1].ctx.strokeStyle = "#FF0000";
+            car[check1].ctx.lineWidth = 3
+            car[check1].ctx.strokeRect(car[check1].x, car[check1].y, car[check1].w, car[check1].h);
+        }
+    </script>
+    <script>
+        Nhinhchunhat();
+    </script>
+</body>
+
+</html>
